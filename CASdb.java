@@ -1,16 +1,19 @@
-package Database;
 import java.sql.*;
 
 public class CASdb {
-
+        private static Connection con;
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		createInventoryUnit();
+                con = getConnection();
+                createInventoryUnit();
+                createCustomerUnit();
+                createOrderUnit();
+                
 	}
 	
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
-			String driver = "com.mysql.jdbc.Driver";
+			String driver = "com.mysql.cj.jdbc.Driver";
 			String url = "jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12235385"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
@@ -21,7 +24,7 @@ public class CASdb {
 			System.out.println("Connected successfully."); //tester
 			return conn;
 		}catch(Exception e) {
-			System.out.println("Error in getConnection: " + e); //in case of any errors
+			System.out.println("Error in getConnection"); //in case of any errors
 		}
 		return null;
 	}
@@ -32,11 +35,10 @@ public class CASdb {
 	
 	public static void insertProduct(String name, String station, double price, String remarks, Date date) throws Exception{ //insert to Product table
 		try {
-			Connection con = getConnection();
 			PreparedStatement newProd = con.prepareStatement("INSERT INTO product(prodname, station, salesprice, remarks, datesold) VALUES('" + name + "', '" + station + "', " + price + ", '" + remarks + "', '" + date + "')" );
 			newProd.executeUpdate(); //execute the insert
 		}catch(Exception e) {
-			System.out.println("Error in insertProduct: " + e); //in case of any errors;
+			System.out.println("Error in insertProduct"); //in case of any errors;
 		}
 		finally {
 			System.out.println("Insert to Product completed"); //tester;
@@ -54,10 +56,9 @@ public class CASdb {
 	public static void insertEndInv() throws Exception{ //insert to Ending Inventory table
 		
 	}
-	
-	public static void createInventoryUnit() throws Exception{
+        
+        public static void createInventoryUnit() throws Exception{
 		try {
-			Connection con = getConnection();
 			PreparedStatement createProd = con.prepareStatement("CREATE TABLE IF NOT EXISTS product (\n" + 
 					"	productNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" + 
 					"	productName VARCHAR(255),\n" + 
@@ -92,5 +93,50 @@ public class CASdb {
 			System.out.println("Inventory unit tables created.");
 		}
 	}
-
+        
+        public static void createCustomerUnit() throws Exception{
+		try {
+			PreparedStatement createCustomer = con.prepareStatement("CREATE TABLE IF NOT EXISTS customer(\n" +
+                                        "	idNo INT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,\n" +
+                                        "	firstName VARCHAR(255),\n" +
+                                        "	midName VARCHAR(255),\n" +
+                                        "	lastName VARCHAR(255),\n" +
+                                        "	balance INT,\n" +
+                                        "	accumulatedDebt INT\n" +
+                                        ")");
+			createCustomer.executeUpdate(); //execute the insert
+		}catch(Exception e) {
+			System.out.println("Error in createCustomerUnit" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Customer Table created"); //tester;
+		}
+	}
+        
+        public static void createOrderUnit() throws Exception{
+		try {
+			PreparedStatement createOrders = con.prepareStatement("CREATE TABLE IF NOT EXISTS orders(\n" +
+                                        "	orderNo INT NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,\n" +
+                                        "	idNo INT,\n" +
+                                        "	orderDate DATE,\n" +
+                                        "	FOREIGN KEY(idNo) REFERENCES customer(idNo)\n" +
+                                        ")");
+			PreparedStatement createOrderItem = con.prepareStatement("CREATE TABLE IF NOT EXISTS orderItem(\n" +
+                                        "	orderNo INT,\n" +
+                                        "	productNo INT,\n" +
+                                        "	PRIMARY KEY( orderNo, productNo ),\n" +
+                                        "	FOREIGN KEY(orderNo) REFERENCES orders(orderNo),\n" +
+                                        "	FOREIGN KEY(productNo) REFERENCES product(productNo)\n" +
+                                        ")");
+			createOrders.executeUpdate();
+			createOrderItem.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("Error in createOrderUnit: " + e);
+		}
+		finally {
+			System.out.println("Order unit tables created.");
+		}
+	}
+        
 }
