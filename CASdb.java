@@ -1,15 +1,16 @@
 import java.sql.*;
 
 public class CASdb {
-        private static Connection con;
+    private static Connection con;
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-                con = getConnection();
-                createInventoryUnit();
-                createCustomerUnit();
-                createOrderUnit();
-                
+            con = getConnection(); 
 	}
+
+	/*constructor
+	public CASdb(){
+		con = getConnection();
+	}*/
 	
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
@@ -29,24 +30,52 @@ public class CASdb {
 		return null;
 	}
 	
-	public static void insertOrderItem() throws Exception{ //insert to Order Item table
-		
+	public static void insertOrders(int idNo, Date orderDate) throws Exception{ //insert to Order table
+		try{
+			PreparedStatement newOrder = con.prepareStatement("INSERT INTO orders(idNo,orderDate) VALUES('" + idNo + "', '" + orderDate + "')" );
+			newOrder.executeUpdate(); //execute the insert
+		}catch(Exception e) {
+			System.out.println("Error in insertOrders " + e); //in case of any errors;
+		}
+		finally{
+			System.out.println("Insert to Orders completed"); //tester;
+		}
+	}
+
+	public static void insertOrderItem(int orderNo, int productNo) throws Exception{ //insert to Order Item table
+		try{
+			PreparedStatement newOrderItem = con.prepareStatement("INSERT INTO orderItem(orderNo,productNo) VALUES('" + orderNo + "', '" + productNo + "')" );
+			newOrderItem.executeUpdate(); //execute the insert
+		}catch(Exception e) {
+			System.out.println("Error in insertOrderItem " + e); //in case of any errors;
+		}
+		finally{
+			System.out.println("Insert to OrderItem completed"); //tester;
+		}
 	}
 	
 	public static void insertProduct(String name, String station, double price, String remarks, Date date) throws Exception{ //insert to Product table
 		try {
-			PreparedStatement newProd = con.prepareStatement("INSERT INTO product(prodname, station, salesprice, remarks, datesold) VALUES('" + name + "', '" + station + "', " + price + ", '" + remarks + "', '" + date + "')" );
+			PreparedStatement newProd = con.prepareStatement("INSERT INTO product(productName, station, salesPrice, remarks, dateSold) VALUES('" + name + "', '" + station + "', " + price + ", '" + remarks + "', '" + date + "')" );
 			newProd.executeUpdate(); //execute the insert
 		}catch(Exception e) {
-			System.out.println("Error in insertProduct"); //in case of any errors;
+			System.out.println("Error in insertProduct " + e); //in case of any errors;
 		}
 		finally {
 			System.out.println("Insert to Product completed"); //tester;
 		}
 	}
 	
-	public static void insertCustomer() throws Exception{ //insert to Customer table
-		
+	public static void insertCustomer(String fName, String mName, String lName, double bal, double accDebt) throws Exception{ //insert to Customer table
+		try {
+			PreparedStatement newCustomer = con.prepareStatement("INSERT INTO customer(firstName, midName, lastName, balance, accumulatedDebt) VALUES('" + fName + "', '" + mName + "', " + lName + ", '" + bal + "', '" + accDebt + "')" );
+			newCustomer.executeUpdate(); //execute the insert
+		}catch(Exception e) {
+			System.out.println("Error in insertCustomer " + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Insert to Customer completed"); //tester;
+		}
 	}
 	
 	public static void insertBegInv() throws Exception{ //insert to Beginning Inventory table
@@ -63,7 +92,7 @@ public class CASdb {
 					"	productNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,\n" + 
 					"	productName VARCHAR(255),\n" + 
 					"	station VARCHAR(255),\n" + 
-					"	salesPrice INT,\n" + 
+					"	salesPrice DOUBLE,\n" + 
 					"	remarks VARCHAR(255),\n" + 
 					"	dateSold DATE\n" + 
 					")");
@@ -101,7 +130,7 @@ public class CASdb {
                                         "	firstName VARCHAR(255),\n" +
                                         "	midName VARCHAR(255),\n" +
                                         "	lastName VARCHAR(255),\n" +
-                                        "	balance INT,\n" +
+                                        "	balance DOUBLE DEFAULT '0.0',\n" +
                                         "	accumulatedDebt INT\n" +
                                         ")");
 			createCustomer.executeUpdate(); //execute the insert
