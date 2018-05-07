@@ -78,12 +78,29 @@ public class CASdb {
 		}
 	}
 	
-	public static void insertBegInv() throws Exception{ //insert to Beginning Inventory table
-		
+	public static void inserBegInv(int prodNo,int begAmt,int totAmt,int plusAmt, int previousAmt) throws Exception{ //insert to Beginning Inventory table
+		try {
+			PreparedStatement newBegInv = con.prepareStatement("INSERT INTO beginInv(productNo, beginAmt, totalAmt, addAmt, prevAmt) VALUES('" + prodNo + "', '" + begAmt + "', '" + totAmt + "', " + int plusAmt + ", '" + previousAmt + "')" );
+			newBegInv.executeUpdate();
+		}catch(Exception e) {
+			System.out.println("Error in insertBegInv" + e);
+		}
+		finally {
+			System.out.println("Insert to BegInv completed"); 
+		}
 	}
+	
 
-	public static void insertEndInv() throws Exception{ //insert to Ending Inventory table
-		
+public static void inserEndInv(int prodNo, int totAmt) throws Exception{  //insert to Ending Inventory table
+		try {
+			PreparedStatement newEndInv = con.prepareStatement("INSERT INTO endInv(productNo, totalAmt) VALUES('" + prodNo + "', '" + totAmt + "')" );
+			newEndInv.executeUpdate();
+		}catch(Exception e) {
+			System.out.println("Error in insertEndInv" + e);
+		}
+		finally {
+			System.out.println("Insert to EndInv completed"); 
+		}
 	}
         
         public static void createInventoryUnit() throws Exception{
