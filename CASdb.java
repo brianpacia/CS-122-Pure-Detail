@@ -214,6 +214,28 @@ public class CASdb {
 		return null;
 	}
     
+	//please check!
+	public static ArrayList<String> getMemWithDebt(int prodNo) throws Exception{
+		try{
+			Connection con = getConnection();
+			PreparedStatement command = con.prepareStatement("SELECT idNo, CONCAT(firstname," ", lastname),accumulatedDebt FROM customer WHERE accumulatedDebt IS NOT NULL);
+
+			ResultSet result = command.executeQuery();
+
+			ArrayList<String> results = new ArrayList<String>();
+
+			while(result.next()){
+				System.out.println(result.getString("idNo") + " " + result.getString("firstname") + " " + result.getString("lastname") + " " + result.getString("accumulatedDebt"));
+				results.add(result.getString("accumulatedDebt"));
+			}
+			return results;
+		}catch(Exception e){
+			System.out.println("Error in getMemWithDebt: " + e);
+		}
+		return null;
+	}
+
+
 	//confirmed
 	public static void createInventoryUnit() throws Exception{
 		try {
