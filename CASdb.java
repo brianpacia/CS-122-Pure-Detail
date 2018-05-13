@@ -10,14 +10,10 @@ public class CASdb {
 		// TODO Auto-generated method stub
             con = getConnection();
             LocalDate ld = LocalDate.of( 2026 , 1 , 23 );
-//            createOrderUnit();
-//            
-//            insertOrders(1, ld);
-//            insertOrderItem(1, 1);
-//            insertOrderItem(1, 4);
-//            insertOrderItem(1, 5);
-            
-            getOrder(1);
+//            insertProduct("Pancit Bihon", "cooked food", 35.00, "1 cup per order");
+//            insertProduct("Adobong Manok", "cooked food", 50.00, "3 pieces of meat per order");
+//            insertCustomer("Jeff", "T.", "Andawi", 1500.00, 0.00);
+//            insertCustomer("Owen", "S.", "Medina", 1250.00, 0.00);
 	}
 
 	/*constructor
@@ -29,12 +25,12 @@ public class CASdb {
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/CASdb"; // "//localhost OR ip add/port/dbname" //where the db is located
+			String url = "jdbc:mysql://localhost:3306/casdb?useLegacyDatetimeCode=false&serverTimezone=UTC"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
 			//establish connection
 			String user = "root" ;
-			String pw = "" ;
+			String pw = "boyets12" ;
 			Connection conn = DriverManager.getConnection(url, user, pw);
 			System.out.println("Connected successfully."); //tester
 			return conn;
@@ -71,9 +67,9 @@ public class CASdb {
 	}
 	
 	//confirmed
-	public static void insertProduct(String name, String station, double price, String remarks, LocalDate date) throws Exception{ //insert to Product table
+	public static void insertProduct(String name, String station, double price, String remarks) throws Exception{ //insert to Product table
 		try {
-			PreparedStatement newProd = con.prepareStatement("INSERT INTO product(productName, station, salesPrice, remarks, dateSold) VALUES('" + name + "', '" + station + "', " + price + ", '" + remarks + "', '" + date + "')" );
+			PreparedStatement newProd = con.prepareStatement("INSERT INTO product(productName, station, salesPrice, remarks) VALUES('" + name + "', '" + station + "', " + price + ", '" + remarks + "')" );
 			newProd.executeUpdate(); //execute the insert
 		}catch(Exception e) {
 			System.out.println("Error in insertProduct " + e); //in case of any errors;
@@ -218,7 +214,7 @@ public class CASdb {
 	public static ArrayList<String> getMemWithDebt(int prodNo) throws Exception{
 		try{
 			Connection con = getConnection();
-			PreparedStatement command = con.prepareStatement("SELECT idNo, CONCAT(firstname," ", lastname),accumulatedDebt FROM customer WHERE accumulatedDebt IS NOT NULL);
+			PreparedStatement command = con.prepareStatement("SELECT idNo, CONCAT(firstname,' ', lastname),accumulatedDebt FROM customer WHERE accumulatedDebt IS NOT NULL");
 
 			ResultSet result = command.executeQuery();
 
@@ -235,6 +231,73 @@ public class CASdb {
 		return null;
 	}
 
+	//UPDATE METHODS
+
+	//confirmed
+	public static void updatePrice(String prod, double newPrice) throws Exception{
+		try {
+			PreparedStatement updatePrice = con.prepareStatement("UPDATE product SET salesPrice = " + newPrice + " WHERE productName LIKE '%" + prod + "%'");
+			updatePrice.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updatePrice" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Price of " + prod + "updated to " + newPrice); //tester;
+		}
+	}
+
+	//confirmed
+	public static void updateStation(String prod, String newStation) throws Exception{
+		try {
+			PreparedStatement updateStation = con.prepareStatement("UPDATE product SET station ='" + newStation + "' WHERE productName LIKE '%" + prod + "%'");
+			updateStation.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updateStation" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Station of " + prod + "updated to " + newStation); //tester;
+		}
+	}
+
+	//confirmed
+	public static void updateRemarks(String prod, String remarks) throws Exception{
+		try {
+			PreparedStatement updateRemarks = con.prepareStatement("UPDATE product SET remarks = '" + remarks + "' WHERE productName LIKE '%" + prod + "%'");
+			updateRemarks.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updateRemarks" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Remarks of " + prod + "updated to " + remarks); //tester;
+		}
+	}
+
+	//confirmed
+	public static void updateBal(int idNo, double amt) throws Exception{
+		try {
+			PreparedStatement updateBal = con.prepareStatement("UPDATE customer SET balance = balance + " + amt + " WHERE idNo = " + idNo);
+			updateBal.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updateBal" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Bal of " + idNo + "updated"); //tester;
+		}
+	}
+
+	//confirmed
+	public static void updateDebt(int idNo, double amt) throws Exception{
+		try {
+			PreparedStatement updateDebt = con.prepareStatement("UPDATE customer SET accumulatedDebt = accumulatedDebt + " + amt + " WHERE idNo = " + idNo);
+			updateDebt.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updateDebt" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("Debt of " + idNo + "updated"); //tester;
+		}
+	}
+
 
 	//confirmed
 	public static void createInventoryUnit() throws Exception{
@@ -244,8 +307,7 @@ public class CASdb {
 					"	productName VARCHAR(255),\n" + 
 					"	station VARCHAR(255),\n" + 
 					"	salesPrice DOUBLE,\n" + 
-					"	remarks VARCHAR(255),\n" + 
-					"	dateSold DATE\n" + 
+					"	remarks VARCHAR(255)\n" + 
 					")");
 			PreparedStatement createBegInv = con.prepareStatement("CREATE TABLE IF NOT EXISTS beginInv (\n" + 
 					"	bInvDate DATE NOT NULL PRIMARY KEY,\n" + 
@@ -283,7 +345,7 @@ public class CASdb {
                                         "	midName VARCHAR(255),\n" +
                                         "	lastName VARCHAR(255),\n" +
                                         "	balance DOUBLE DEFAULT '0.0',\n" +
-                                        "	accumulatedDebt INT\n" +
+                                        "	accumulatedDebt DOUBLE DEFAULT '0.0'\n" +
                                         ")");
 			createCustomer.executeUpdate(); //execute the insert
 		}catch(Exception e) {
