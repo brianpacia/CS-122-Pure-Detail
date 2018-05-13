@@ -40,10 +40,10 @@ public class CASdb {
 		return null;
 	}
 	
-	//confirmed
-	public static void insertOrders(int idNo, LocalDate ld) throws Exception{ //insert to Order table
+	//fixed 5/13/2018
+	public static void insertOrder(String fName, String mName, String lName, LocalDate ld) throws Exception{ //insert to Order table
 		try{
-			PreparedStatement newOrder = con.prepareStatement("INSERT INTO orders(idNo,orderDate) VALUES('" + idNo + "', '" + ld + "')" );
+			PreparedStatement newOrder = con.prepareStatement("INSERT INTO orders(idNo,orderDate) VALUES(" + "(SELECT idNo FROM customer WHERE firstName = '" + fName + "' AND midName = '" + mName + "' AND lastName = '" + lName + "')" + ", '" + ld + "')" );
 			newOrder.executeUpdate(); //execute the insert
 		}catch(Exception e) {
 			System.out.println("Error in insertOrders " + e); //in case of any errors;
@@ -53,10 +53,10 @@ public class CASdb {
 		}
 	}
 
-	//confirmed
-	public static void insertOrderItem(int orderNo, int productNo) throws Exception{ //insert to Order Item table
+	//fixed 5/13/2018
+	public static void insertOrderItem(String fName, String mName, String lName, String productName) throws Exception{ //insert to Order Item table
 		try{
-			PreparedStatement newOrderItem = con.prepareStatement("INSERT INTO orderItem(orderNo,productNo) VALUES('" + orderNo + "', '" + productNo + "')" );
+			PreparedStatement newOrderItem = con.prepareStatement("INSERT INTO orderItem(orderNo,productNo) VALUES(" + "(SELECT orders.orderNo FROM orders, customer WHERE orders.idNo = customer.idNo AND customer.firstName = '" + fName + "' AND customer.midName = '" + mName + "' AND customer.lastName = '" + lName + "' ORDER BY orders.orderNo DESC LIMIT 1)" + ", " + "(SELECT productNo FROM product WHERE productName = '" + productName + "' )" + ")" );
 			newOrderItem.executeUpdate(); //execute the insert
 		}catch(Exception e) {
 			System.out.println("Error in insertOrderItem " + e); //in case of any errors;
@@ -92,10 +92,10 @@ public class CASdb {
 		}
 	}
 	
-	//fixed, confirmed
-	public static void insertBegInv(LocalDate date, int prodNo,int begAmt,int totAmt,int plusAmt, int previousAmt) throws Exception{ //insert to Beginning Inventory table
+	//fixed 5/13/2018
+	public static void insertBegInv(LocalDate date, String prodName,int begAmt, int plusAmt, int prevAmt) throws Exception{ //insert to Beginning Inventory table
 		try {
-			PreparedStatement newBegInv = con.prepareStatement("INSERT INTO beginInv VALUES('" + date + "', " + prodNo + ", " + begAmt + ", " + totAmt + ", " + plusAmt + ", " + previousAmt + ")" );
+			PreparedStatement newBegInv = con.prepareStatement("INSERT INTO beginInv VALUES('" + date + "', " + "(SELECT productNo FROM product WHERE productName = '" + prodName + "')" + ", " + begAmt + ", " + (begAmt+plusAmt+prevAmt) + ", " + plusAmt + ", " + prevAmt + ")" );
 			newBegInv.executeUpdate();
 		}catch(Exception e) {
 			System.out.println("Error in insertBegInv" + e);
