@@ -25,12 +25,12 @@ public class CASdb {
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/casdb?useLegacyDatetimeCode=false&serverTimezone=UTC"; // "//localhost OR ip add/port/dbname" //where the db is located
+			String url = "jdbc:mysql://localhost:3306/casdb"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
 			//establish connection
 			String user = "root" ;
-			String pw = "boyets12" ;
+			String pw = "" ;
 			Connection conn = DriverManager.getConnection(url, user, pw);
 			System.out.println("Connected successfully."); //tester
 			return conn;
