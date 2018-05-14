@@ -430,9 +430,9 @@ class form extends JFrame implements ActionListener {
 				String f = tffirstname.getText();
 				String m = tfmiddlename.getText();
 				String l = tflastname.getText();
-				String p = tfproductname.getText();
+				String z = tfproductname.getText();
 				int q = Integer.parseInt(tfquantity.getText());
-				functions.insertOrderItem(f,m,l,p,q);
+				functions.insertOrderItem(f,m,l,z,q);
 			}
 		});										
 	}
@@ -463,9 +463,9 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				String n = tfname.getText();
 				String s = tfstation.getText();
-				double p = Double.parseDouble(tfprice.getText());
+				double z = Double.parseDouble(tfprice.getText());
 				String r = tfremarks.getText();
-				functions.insertProduct(n,s,p,r);
+				functions.insertProduct(n,s,z,r);
 			}
 		});		
 	}
@@ -547,11 +547,11 @@ class form extends JFrame implements ActionListener {
 				int y = Integer.parseInt(tfyear.getText());
 				int mo = Integer.parseInt(tfmonth.getText());
 				int d = Integer.parseInt(tfday.getText());
-				String p = tfprodName.getText();
+				String z = tfprodName.getText();
 				int bAmt = Integer.parseInt(tfbegAmt.getText());
 				int plAmt = Integer.parseInt(tfplusAmt.getText());
 				int prAmt = Integer.parseInt(tfprevAmt.getText());
-				functions.insertBegInv(y,mo,d,p,bAmt,plAmt,prAmt);
+				functions.insertBegInv(y,mo,d,z,bAmt,plAmt,prAmt);
 			}
 		});		
 	}
@@ -587,9 +587,9 @@ class form extends JFrame implements ActionListener {
 				int y = Integer.parseInt(tfyear.getText());
 				int mo = Integer.parseInt(tfmonth.getText());
 				int d = Integer.parseInt(tfday.getText());
-				String p = tfprodName.getText();
+				String z = tfprodName.getText();
 				int t = Integer.parseInt(tftotAmt.getText());
-				functions.insertEndInv(y,mo,d,p,t);
+				functions.insertEndInv(y,mo,d,z,t);
 			}
 		});		
 	}
@@ -649,8 +649,8 @@ class form extends JFrame implements ActionListener {
 		send.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				String p = tfprodName.getText();
-				functions.getPrice(p);
+				String z = tfprodName.getText();
+				functions.getPrice(z);
 			}
 		});		
 	}
@@ -710,8 +710,8 @@ class form extends JFrame implements ActionListener {
 				int y = Integer.parseInt(tfyear.getText());
 				int mo = Integer.parseInt(tfmonth.getText());
 				int d = Integer.parseInt(tfday.getText());
-				String p = tfprodName.getText();
-				functions.getInv(y,mo,d,p);
+				String z = tfprodName.getText();
+				functions.getInv(y,mo,d,z);
 			}
 		});				
 	}
@@ -732,11 +732,102 @@ class form extends JFrame implements ActionListener {
 		send.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				String p = tfprod.getText(); 
+				String z = tfprod.getText(); 
 				double d = Double.parseDouble(tfnewPrice.getText());
-				functions.updatePrice(p,d);
+				functions.updatePrice(z,d);
 			}
 		});						
-
 	}
+	public static void updateStation() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(2,2));
+		JLabel prod = new JLabel("Product Name");
+		JTextField tfprod = new JTextField("");
+		p.add(prod);
+		p.add(tfprod);
+		JLabel newStation = new JLabel("New Station");
+		JTextField tfnewStation = new JTextField("");
+		p.add(newStation);
+		p.add(tfnewStation);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String z = tfprod.getText(); 
+				String s = tfnewStation.getText();
+				functions.updateStation(z,s);
+			}
+		});
+	}
+	public static void updateRemarks() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(2,2));
+		JLabel prod = new JLabel("Product Name");
+		JTextField tfprod = new JTextField("");
+		p.add(prod);
+		p.add(tfprod);
+		JLabel newRemarks = new JLabel("New Remarks");
+		JTextField tfnewRemarks = new JTextField("");
+		p.add(newRemarks);
+		p.add(tfnewRemarks);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String z = tfprod.getText(); 
+				String r = tfnewRemarks.getText();
+				functions.updateRemarks(z,r);
+			}
+		});		
+	}
+	public static void updateBal() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(2,2));
+		JLabel idNo = new JLabel("ID Number");
+		JTextField tfidNo = new JTextField("");
+		p.add(idNo);
+		p.add(tfidNo);
+		JLabel amt = new JLabel("New Balance");
+		JTextField tfamt = new JTextField("");
+		p.add(amt);
+		p.add(tfamt);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int z = Integer.parseInt(tfidNo.getText()); 
+				double r = Double.parseDouble(tfamt.getText());
+				functions.updateBal(z,r);
+			}
+		});		
+	}
+	public static void updateDebt() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(2,2));
+		JLabel idNo = new JLabel("ID Number");
+		JTextField tfidNo = new JTextField("");
+		p.add(idNo);
+		p.add(tfidNo);
+		JLabel amt = new JLabel("New Balance");
+		JTextField tfamt = new JTextField("");
+		p.add(amt);
+		p.add(tfamt);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int z = Integer.parseInt(tfidNo.getText()); 
+				double r = Double.parseDouble(tfamt.getText());
+				functions.updateDebt(z,r);
+			}
+		});		
+	}		
 }
