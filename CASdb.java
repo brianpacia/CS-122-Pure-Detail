@@ -120,7 +120,7 @@ public class CASdb {
 	}
 	
 	//fixed 5/13/2018
-	public static void getOrder(int year, int month, int day, String fName, String mName, String lName) throws Exception{
+	public static ArrayList<String> getOrder(int year, int month, int day, String fName, String mName, String lName) throws Exception{
 		try{
 			LocalDate ld = LocalDate.of(year, month, day);
 			Connection con = getConnection();
@@ -128,48 +128,68 @@ public class CASdb {
 
 			ResultSet result = command.executeQuery();
 
+			ArrayList<String> results = new ArrayList<String>();
+
 			while(result.next()){
 				System.out.println(result.getString("o.orderDate") + " " + result.getString("cust.firstName") + " " + result.getString("cust.lastName") + " " + result.getString("prod.productName") + " " + result.getString("oi.quantity"));
+				results.add(result.getString("o.orderDate"));
+ 				results.add(result.getString("cust.firstName"));
+ 				results.add(result.getString("cust.lastName"));
+ 				results.add(result.getString("prod.productName"));
+ 				results.add(result.getString("oi.quantity"));
 			}
 		}catch(Exception e){
 			System.out.println("Error in getOrder: " + e);
 		}
+		return results;
 	}
 	
 	//fixed 5/13/2018
-	public static void getPrice(String prodName) throws Exception{
+	public static ArrayList<String> getPrice(String prodName) throws Exception{
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT productName, salesPrice FROM product WHERE productName = '" + prodName + "'");
 
 			ResultSet result = command.executeQuery();
 
+			ArrayList<String> results = new ArrayList<String>();
+
 			while(result.next()){
 				System.out.println(result.getString("productName") + " " + result.getString("salesPrice"));
+				results.add(result.getString("productName"));
+				results.add(result.getString("salesPrice"));
 			}
 		}catch(Exception e){
 			System.out.println("Error in getPrice: " + e);
 		}
+		return results;
 	}
 	
-	//fixed 5/13/2018
-	public static void getCustInfo(String fName, String mName, String lName) throws Exception{
+	//fixed 5/13/2018 - ASK ABOUT THIS METHOD
+	public static ArrayList<String> getCustInfo(String fName, String mName, String lName) throws Exception{
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT idNo, CONCAT(firstName,' ', midName, ' ', lastName), balance, accumulatedDebt FROM customer WHERE firstName = '" + fName + "' AND midName = '" + mName + "' AND lastName = '" + lName + "'");
 
 			ResultSet result = command.executeQuery();
 
+			ArrayList<String> results = new ArrayList<String>();
+
 			while(result.next()){
 				System.out.println(result.getString(1) + " " + result.getString(2) + " " + result.getString("balance") + " " + result.getString("accumulatedDebt"));
+				results.add(result.getString(1));
+				results.add(result.getString(2));
+				results.add(result.getString("balance"));
+				results.add(result.getString("accumulatedDebt"));
 			}
 		}catch(Exception e){
 			System.out.println("Error in getCustInfo: " + e);
 		}
+		return results;
 	}
 	
 	//fixed 5/13/2018
-	public static void getInv(int year, int month, int day, String prodName) throws Exception{
+	public static ArrayList<String> getInv(int year, int month, int day, String prodName) throws Exception{
 		try{
 			LocalDate ld = LocalDate.of(year, month, day);
 			Connection con = getConnection();
@@ -177,28 +197,39 @@ public class CASdb {
 
 			ResultSet result = command.executeQuery();
 
+			ArrayList<String> results = new ArrayList<String>();
+
 			while(result.next()){
 				System.out.println(prodName + " " + result.getString("beg.totalAmt") + " " + result.getString("end.totalAmt"));
+				results.add(prodName);
+				results.add(result.getString("beg.totalAmt"));
+				results.add(result.getString("end.totalAmt"));
 			}
 		}catch(Exception e){
 			System.out.println("Error in getInv: " + e);
 		}
+		return results;
 	}
     
 	//fixed 5/13/2018
-	public static void getCustWithDebt() throws Exception{
+	public static ArrayList<String> getCustWithDebt() throws Exception{
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT CONCAT(firstName,' ', midName, ' ', lastName),accumulatedDebt FROM customer WHERE accumulatedDebt <> 0");
 
 			ResultSet result = command.executeQuery();
 
+			ArrayList<String> results = new ArrayList<String>();
+
 			while(result.next()){
 				System.out.println(result.getString(1) + " " + result.getString("accumulatedDebt"));
+				results.add(result.getString(1));
+				results.add(result.getString("accumulatedDebt"));
 			}
 		}catch(Exception e){
 			System.out.println("Error in getCustWithDebt: " + e);
 		}
+		return results;
 	}
 
 	//UPDATE METHODS
