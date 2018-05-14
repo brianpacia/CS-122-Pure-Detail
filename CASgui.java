@@ -21,6 +21,7 @@ public class CASgui extends JFrame {
 	private JFrame f;
 	private CASform casf;
 	private CASdb db;
+	private MouseListener ml;
 	public CASgui () {
 		Path currentRelativePath = Paths.get("");
 		path = currentRelativePath.toAbsolutePath().toString();
@@ -46,7 +47,7 @@ public class CASgui extends JFrame {
 	public void funcMain() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\function-main.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
@@ -56,7 +57,8 @@ public class CASgui extends JFrame {
 					funcInsert = 1;
 					funcSearch = 0;
 					funcUpdate = 0;
-					f.remove(bg);
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
 					main();
 				}
 				// search
@@ -64,7 +66,8 @@ public class CASgui extends JFrame {
 					funcSearch = 1;
 					funcInsert = 0;
 					funcUpdate = 0;
-					f.remove(bg);
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
 					main();
 				}
 				// update
@@ -72,261 +75,363 @@ public class CASgui extends JFrame {
 					funcUpdate = 1;
 					funcSearch = 0;
 					funcInsert = 0;
-					f.remove(bg);
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
 					main();
 				}
 				System.out.println(x + " , " + y);
 			}
-		});
+		};
+		f.addMouseListener(ml);
 		f.revalidate();
 		f.repaint();
 	}
 	public void main() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\main.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// inventory
 				if(x >= 172 && x <= 456 && y >= 378 && y <= 648) {
-					f.remove(bg);
 					// going to inventory
 					if(funcInsert == 1) {
 						mainInsert = 1;
 						mainUpdate = 0;
 						mainSearch = 0;
-						inventoryMain();
 					}
 					else if (funcSearch == 1) {
 						mainInsert = 0;
 						mainUpdate = 0;
 						mainSearch = 1;
-						inventoryMain();
 					}
 					else if (funcUpdate == 1) {
 						mainInsert = 0;
 						mainUpdate = 1;
-						mainSearch = 0;
-						inventoryMain();						
+						mainSearch = 0;					
 					}
-					f.remove(bg);
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					inventoryMain();
 				}
 				// going to order
 				else if (x >= 520 && x <= 720 && y >= 378 && y <= 648) { 
-					f.remove(bg);
 					if(funcInsert == 1) {
 						mainInsert = 1;
 						mainUpdate = 0;
 						mainSearch = 0;
-						orderMain();
 					}
 					else if (funcSearch == 1) {
 						mainInsert = 0;
 						mainUpdate = 0;
 						mainSearch = 1;
-						orderMain();
-					}					
+					}
+					else if (funcUpdate == 1) {
+						mainInsert = 0;
+						mainUpdate = 0;
+						mainSearch = 0;
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();
+					}
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					orderMain();					
 				}
 				// going to customer
 				else if (x >= 800 && x <= 1040 && y >= 378 && y <= 648) {
 					f.remove(bg);
 					// form
 					if(funcInsert == 1) {
-                                            casf.insertCustomer();
+						mainInsert = 1;
+						mainUpdate = 0;
+						mainSearch = 0;
+						casf.insertCustomer();
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();
 					}
 					else if (funcSearch == 1) {
 						mainInsert = 0;
 						mainUpdate = 0;
 						mainSearch = 1;
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
 						customerGet();
 					}
 					else if (funcUpdate == 1) {
 						mainInsert = 0;
 						mainUpdate = 1;
 						mainSearch = 0;
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
 						customerUpdate();						
 					}					
 				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						funcMain();										
+				}
 				System.out.println(x + " , " + y);
 			}
-		});		
+		};
+		f.addMouseListener(ml);	
 		f.revalidate();
 		f.repaint();				
 	}
 	public void inventoryMain() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\inventory-option.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// first three = product
-				if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainInsert == 1) {
+				if(mainInsert == 1 && x >= 250 && x <= 462 && y >= 334 && y <= 588) {
 					casf.insertProduct();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);					
+					inventoryMain();
 				}
-				else if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainSearch == 1) {
-					f.remove(bg);
+				else if(mainSearch == 1 && x >= 250 && x <= 462 && y >= 334 && y <= 588) {
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);					
 					prodGet();
 				}
-				else if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainUpdate == 1) {
-					f.remove(bg);
+				else if(mainUpdate == 1 && x >= 250 && x <= 462 && y >= 334 && y <= 588	) {
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);					
 					prodUpdate();
 				}									
 				// second = beginning
-				else if (x >= 542 && x <= 768 && y >= 348 && y <= 616) {
+				else if (x >= 813 && x <= 1035 && y >= 348 && y <= 616 && mainInsert == 1) {
+					casf.insertBegInv();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);					
+					inventoryMain();
 				}
-				// third = ending
-				else if (x >= 826 && x <= 1032 && y >= 348 && y <= 616) {
-				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();										
+				}				
 				System.out.println(x + " , " + y);
 			}
-		});		
+		};
+		f.addMouseListener(ml);	
 		f.revalidate();
 		f.repaint();
 	}
 	public void orderMain() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\order-option.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// first two = order
-				if(x >= 286 && x <= 506 && y >= 340 && y <= 582 && mainInsert == 1) {
-					try{
+				if(mainInsert == 1 && x >= 286 && x <= 506 && y >= 340 && y <= 582) {
+					try {
 						casf.insertOrder();
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						orderMain();
 					}
 					catch(Exception h) {
 						System.out.println("Insert Order CASForm Error");
 					}
 				}
-				else if(x >= 286 && x <= 506 && y >= 340 && y <= 582 && mainSearch == 1) {
-                                    try {
-                                        results = casf.getOrder();
-                                    } catch (Exception ex) {
-                                        System.out.println("Error in getOrder " + ex);
-                                    }
+				else if(mainSearch == 1 && x >= 286 && x <= 506 && y >= 340 && y <= 582) {
+					try {
+					    results = casf.getOrder();
+					    f.getContentPane().removeAll();
+					    f.removeMouseListener(ml);	
+					    orderMain();
+					} catch (Exception ex) {
+					    System.out.println("Error in getOrder " + ex);
+					}
 				}
 				// second two = order item							
 				else if (x >= 744 && x <= 1044 && y >= 334 && y <= 588 && mainInsert == 1) {
 					casf.insertOrderItem();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					orderMain();
 				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();										
+				}				
 				System.out.println(x + " , " + y);
 			}
-		});			
+		};
+		f.addMouseListener(ml);			
 		f.revalidate();
 		f.repaint();		
 	}
 	public void customerUpdate() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\update-cust.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// debt
-				if(x >= 198 && x <= 496 && y >= 276 && y <= 594) {
+				if(x >= 198 && x <= 496 && y >= 276 && y <= 594 && mainUpdate == 1) {
 					casf.updateBal();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					customerUpdate();
 				}
 				// balance						
-				else if (x >= 732 && x <= 1032 && y >= 276 && y <= 594) {
+				else if (x >= 732 && x <= 1032 && y >= 276 && y <= 594 && mainUpdate == 1) {
 					casf.updateDebt();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					customerUpdate();
 				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();										
+				}				
 				System.out.println(x + " , " + y);
 			}
-		});		
+		};
+		f.addMouseListener(ml);	
 		f.revalidate();
 		f.repaint();		
 	}
 	public void customerGet() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\get-cust.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// no debt
-				if(x >= 160 && x <= 476 && y >= 254 && y <= 564) {
-                                    try {
-                                        results = casf.getCustInfo();
-                                    } catch (Exception ex) {
-                                        System.out.println("Error in customerGet " + ex);
-                                    }
+				if(x >= 160 && x <= 476 && y >= 254 && y <= 564 && mainSearch == 1) {
+					try {
+					    results = casf.getCustInfo();
+					    f.getContentPane().removeAll();
+					    f.removeMouseListener(ml);	
+					    customerGet();
+					} catch (Exception ex) {
+					    System.out.println("Error in customerGet " + ex);
+					}
 				}
 				// with debt					
-				else if (x >= 770 && x <= 122 && y >= 254 && y <= 622) {
+				else if (x >= 770 && x <= 1222 && y >= 254 && y <= 622 & mainSearch == 1) {
 					try {
-						results = db.getCustWithDebt();
+						casf.getCustWithDebt();
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						customerGet();
 					}
 					catch (Exception ex) {
 						System.out.println("Error in inserting " + ex);
 					}
 				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						main();										
+				}				
 				System.out.println(x + " , " + y);
 			}
-		});			
+		};
+		f.addMouseListener(ml);	
 		f.revalidate();
 		f.repaint();		
 	}
 	public void prodGet() {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\get-prod.png"));
 		f.add(bg,BorderLayout.CENTER);
-		f.addMouseListener(new MouseAdapter() {
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// price
-				if(x >= 138 && x <= 474 && y >= 244 && y <= 594) {
-                                    try {
-                                        results = casf.getPrice();
-                                    } catch (Exception ex) {
-                                        System.out.println();
-                                    }
+				if(x >= 138 && x <= 474 && y >= 244 && y <= 594 & mainSearch == 1) {
+					try {
+					    results = casf.getPrice();
+					    f.getContentPane().removeAll();
+					    f.removeMouseListener(ml);	
+					    prodGet();
+					} catch (Exception ex) {
+					    System.out.println();
+					}
 				}
 				// profit					
-				else if (x >= 792 && x <= 1187 && y >= 244 && y <= 594) {
-                                    try {
-                                        casf.getProfit();
-                                    } catch (Exception ex) {
-                                        System.out.println();
-                                    }
+				else if (x >= 792 && x <= 1187 && y >= 244 && y <= 594 & mainSearch == 1) {
+					try {
+					    casf.getProfit();
+					    f.getContentPane().removeAll();
+					    f.removeMouseListener(ml);	
+					    prodGet();
+					} catch (Exception ex) {
+					    System.out.println();
+					}
 				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						inventoryMain();										
+				}				
 				System.out.println(x + " , " + y);
 			}
-		});
+		};
+		f.addMouseListener(ml);
 		f.revalidate();
 		f.repaint();		
 	}
 	public void prodUpdate()  {
 		JLabel bg = new JLabel(new ImageIcon(path+"\\update-prod.png"));
-		f.addMouseListener(new MouseAdapter() {
+		f.add(bg,BorderLayout.CENTER);
+		ml = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				// station
-				if(x >= 44 && x <= 404 && y >= 320 && y <= 598) {
+				if(x >= 44 && x <= 404 && y >= 320 && y <= 598 && mainUpdate == 1) {
 					casf.updateStation();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					prodUpdate();
 				}
 				// price				
-				else if (x >= 528 && x <= 798 && y >= 244 && y <= 594) {
+				else if (x >= 528 && x <= 798 && y >= 244 && y <= 594 && mainUpdate == 1) {
 					casf.updatePrice();
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					prodUpdate();
 				}
 				// remarks
-				else if (x >= 922 && x <= 1228 && y >= 244 && y <= 594) {
+				else if (x >= 922 && x <= 1228 && y >= 244 && y <= 594 && mainUpdate == 1) {
 					casf.updateRemarks();
-				}				
+					f.getContentPane().removeAll();
+					f.removeMouseListener(ml);	
+					prodUpdate();
+				}
+				else if(x >= 6 && x <= 256 && y >= 624 && y <= 715) {
+						f.getContentPane().removeAll();
+						f.removeMouseListener(ml);	
+						inventoryMain();										
+				}								
 				System.out.println(x + " , " + y);
 			}
-		});			
-		f.add(bg,BorderLayout.CENTER);
+		};
+		f.addMouseListener(ml);
 		f.revalidate();
 		f.repaint();		
 	}						

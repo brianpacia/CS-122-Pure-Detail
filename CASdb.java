@@ -9,9 +9,9 @@ public class CASdb {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
             con = getConnection();
-            //createCustomerUnit();
-            //createOrderUnit();
-            //createInventoryUnit();
+            createCustomerUnit();
+            createInventoryUnit();
+            createOrderUnit();
             //product
 //insertProduct("Pancit Bihon", "cooked food", 35.00, "1 cup per order");
 //insertProduct("Adobong Manok", "cooked food", 50.00, "3 pieces of meat per order");
@@ -53,22 +53,22 @@ public class CASdb {
 //insertOrder("Brian", "P.", "Pacia", 2018 , 5 , 17);
 //
 ////orderitem
-// insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 4,  2018 , 5 , 17);
-// insertOrderItem("Brian", "P.", "Pacia", "Turon", 2,  2018 , 5 , 17);
-// insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 2,  2018 , 5 , 17);
-// insertOrderItem("Owen", "S.", "Medina", "Lemon Smart C", 15,  2018 , 5 , 17);
-// insertOrderItem("Owen", "S.", "Medina", "Oreos", 10,  2018 , 5 , 17);
-// insertOrderItem("Jeff", "T.", "Andawi", "Cheese Piattos", 2,  2018 , 5 , 17);
-// insertOrderItem("Jeff", "T.", "Andawi", "Summit Water", 1,  2018 , 5 , 17);
-// insertOrderItem("Angela", "M.", "Mercado", "Nilagang Baka", 1, 2018 , 5 , 16);
-// insertOrderItem("Angela", "M.", "Mercado", "Plain Rice", 2, 2018 , 5 , 16);
-// insertOrderItem("Paolo", "O.", "Alilam", "Gatorade Blue Bolt", 1, 2018 , 5 , 16);
-// insertOrderItem("Alec", "A.", "Aquino", "Adobong Manok", 1, 2018 , 5 , 15 );
-// insertOrderItem("Alec", "A.", "Aquino", "Plain Rice", 1, 2018 , 5 , 15 );
-// insertOrderItem("Alec", "A.", "Aquino", "Summit Water", 1, 2018 , 5 , 15 );
-// insertOrderItem("Kristi", "T.", "Ingco", "Pritong Bangus", 3, 2018 , 5 , 15 );
-// insertOrderItem("Enzo", "A.", "Orbeta", "Skyflakes", 10, 2018 , 5 , 15 );
-// insertOrderItem("Jerry", "P.", "Patajo", "Turon", 4, 2018 , 5 , 17);
+//insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 4,  2018 , 5 , 17);
+//insertOrderItem("Brian", "P.", "Pacia", "Turon", 2,  2018 , 5 , 17);
+//insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 2,  2018 , 5 , 17);
+//insertOrderItem("Owen", "S.", "Medina", "Lemon Smart C", 15,  2018 , 5 , 17);
+//insertOrderItem("Owen", "S.", "Medina", "Oreos", 10,  2018 , 5 , 17);
+//insertOrderItem("Jeff", "T.", "Andawi", "Cheese Piattos", 2,  2018 , 5 , 17);
+//insertOrderItem("Jeff", "T.", "Andawi", "Summit Water", 1,  2018 , 5 , 17);
+//insertOrderItem("Angela", "M.", "Mercado", "Nilagang Baka", 1, 2018 , 5 , 16);
+//insertOrderItem("Angela", "M.", "Mercado", "Plain Rice", 2, 2018 , 5 , 16);
+//insertOrderItem("Paolo", "O.", "Alilam", "Gatorade Blue Bolt", 1, 2018 , 5 , 16);
+//insertOrderItem("Alec", "A.", "Aquino", "Adobong Manok", 1, 2018 , 5 , 15 );
+//insertOrderItem("Alec", "A.", "Aquino", "Plain Rice", 1, 2018 , 5 , 15 );
+//insertOrderItem("Alec", "A.", "Aquino", "Summit Water", 1, 2018 , 5 , 15 );
+//insertOrderItem("Kristi", "T.", "Ingco", "Pritong Bangus", 3, 2018 , 5 , 15 );
+//insertOrderItem("Enzo", "A.", "Orbeta", "Skyflakes", 10, 2018 , 5 , 15 );
+//insertOrderItem("Jerry", "P.", "Patajo", "Turon", 4, 2018 , 5 , 17);
 //
 ////inventory
 //insertBegInv(2018, 5, 15, "Pancit Bihon", 15, 0, 0);
@@ -261,20 +261,22 @@ public class CASdb {
 
 			ResultSet result = command.executeQuery();
 
-			
-
 			while(result.next()){
 				System.out.println(result.getString("productName") + " " + result.getString("salesPrice"));
 				results.add(result.getString("productName"));
 				results.add(result.getString("salesPrice"));
 			}
+                        if( results.isEmpty() ) {
+                            System.out.println("ITEM NOT FOUND");
+                            results.add("ITEM NOT FOUND");
+                        }
 		}catch(Exception e){
 			System.out.println("Error in getPrice: " + e);
 		}
 		return results;
 	}
 	
-	//fixed 5/13/2018 - ASK ABOUT THIS METHOD
+	//fixed 5/13/2018 
 	public static ArrayList<String> getCustInfo(String fName, String mName, String lName) throws Exception{
                 ArrayList<String> results = new ArrayList<String>();
 		try{
@@ -302,7 +304,6 @@ public class CASdb {
                 ArrayList<String> results = new ArrayList<String>();
 		try{
 			LocalDate ld = LocalDate.of(year, month, day);
-			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT beg.totalAmt, end.totalAmt FROM beginInv beg, endInv end, product prod WHERE beg.productNo = prod.productNo AND end.productNo = prod.productNo AND prod.productName = '" + prodName + "' AND beg.bInvDate = '" + ld + "' AND end.eInvDate = '" + ld + "'");
 
 			ResultSet result = command.executeQuery();
@@ -325,8 +326,7 @@ public class CASdb {
 	public static ArrayList<String> getCustWithDebt() throws Exception{
                 ArrayList<String> results = new ArrayList<String>();
 		try{
-			Connection con = getConnection();
-			PreparedStatement command = con.prepareStatement("SELECT CONCAT(firstName,' ', midName, ' ', lastName),accumulatedDebt FROM customer WHERE accumulatedDebt <> 0");
+			PreparedStatement command = con.prepareStatement("SELECT CONCAT(firstName,' ', midName, ' ', lastName),accumulatedDebt FROM customer WHERE accumulatedDebt != 0");
 
 			ResultSet result = command.executeQuery();
 
