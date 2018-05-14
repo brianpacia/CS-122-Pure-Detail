@@ -299,7 +299,7 @@ class form extends JFrame implements ActionListener {
 	public int insertOrder, insertOrderItem, insertProduct, insertCustomer, insertBegInv, insertEndInv, getOrder, getPrice, getCustInfo, getInv, updateProduct, updatePrice, updateStation, updateRemarks, updateBal, updateDebt;
 	public static JFrame x;
 	public static CASdb functions;
-	public form (int s) {
+	public form (int s) throws Exception{
 		functions = new CASdb();
 		x = new JFrame();
 		x.setLayout(new BorderLayout());
@@ -355,7 +355,7 @@ class form extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		x.setVisible(true);
 	}
-	public static void insertOrderForm() {
+	public static void insertOrderForm() throws Exception{
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(6,2));
 		JLabel firstname = new JLabel("First Name");
@@ -394,10 +394,13 @@ class form extends JFrame implements ActionListener {
 				int y = Integer.parseInt(tfyear.getText());
 				int mo = Integer.parseInt(tfmonth.getText());
 				int d = Integer.parseInt(tfday.getText());
-				functions.insertOrder(f,m,l,y,mo,d);
+                            try {
+                                functions.insertOrder(f,m,l,y,mo,d);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
 		});
-		x.dispose();
 	}
 	public static void insertOrderItem() {
 		JPanel p = new JPanel();
@@ -433,10 +436,13 @@ class form extends JFrame implements ActionListener {
 				String l = tflastname.getText();
 				String z = tfproductname.getText();
 				int q = Integer.parseInt(tfquantity.getText());
-				functions.insertOrderItem(f,m,l,z,q);
+                            try {
+                                functions.insertOrderItem(f,m,l,z,q);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();									
+		});										
 	}
 	public static void insertProduct() {
 		JPanel p = new JPanel();
@@ -467,10 +473,13 @@ class form extends JFrame implements ActionListener {
 				String s = tfstation.getText();
 				double z = Double.parseDouble(tfprice.getText());
 				String r = tfremarks.getText();
-				functions.insertProduct(n,s,z,r);
+                            try {
+                                functions.insertProduct(n,s,z,r);
+                            } catch (Exception ex) {
+                               System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();	
+		});		
 	}
 	public static void insertCustomer() {
 		JPanel p = new JPanel();
@@ -506,7 +515,11 @@ class form extends JFrame implements ActionListener {
 				String l = tflastname.getText();
 				double b = Double.parseDouble(tfbal.getText());
 				double d = Double.parseDouble(tfdebt.getText());
-				functions.insertCustomer(f,m,l,b,d);
+                            try {
+                                functions.insertCustomer(f,m,l,b,d);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
 		});						
 	}
@@ -554,10 +567,13 @@ class form extends JFrame implements ActionListener {
 				int bAmt = Integer.parseInt(tfbegAmt.getText());
 				int plAmt = Integer.parseInt(tfplusAmt.getText());
 				int prAmt = Integer.parseInt(tfprevAmt.getText());
-				functions.insertBegInv(y,mo,d,z,bAmt,plAmt,prAmt);
+                            try {
+                                functions.insertBegInv(y,mo,d,z,bAmt,plAmt,prAmt);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();	
+		});		
 	}
 	public static void insertEndInv() {
 		JPanel p = new JPanel();
@@ -593,10 +609,13 @@ class form extends JFrame implements ActionListener {
 				int d = Integer.parseInt(tfday.getText());
 				String z = tfprodName.getText();
 				int t = Integer.parseInt(tftotAmt.getText());
-				functions.insertEndInv(y,mo,d,z,t);
+                            try {
+                                functions.insertEndInv(y,mo,d,z,t);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();	
+		});		
 	}
 	public static void getOrder() {
 		JPanel p = new JPanel();
@@ -631,16 +650,19 @@ class form extends JFrame implements ActionListener {
 		send.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				String f = tffirstname.getText();
-				String m = tfmiddlename.getText();
-				String l = tflastname.getText();
-				int y = Integer.parseInt(tfyear.getText());
-				int mo = Integer.parseInt(tfmonth.getText());
-				int d = Integer.parseInt(tfday.getText());
-				functions.getOrder(y,mo,d,f,m,l);
+                            try {
+                                String f = tffirstname.getText();
+                                String m = tfmiddlename.getText();
+                                String l = tflastname.getText();
+                                int y = Integer.parseInt(tfyear.getText());
+                                int mo = Integer.parseInt(tfmonth.getText());
+                                int d = Integer.parseInt(tfday.getText());
+                                functions.getOrder(y,mo,d,f,m,l);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();	
+		});		
 	}
 	public static void getPrice() {
 		JPanel p = new JPanel();
@@ -656,10 +678,13 @@ class form extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				String z = tfprodName.getText();
-				functions.getPrice(z);
+                            try {
+                                functions.getPrice(z);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();	
+		});		
 	}
 	public static void getCustInfo() {
 		JPanel p = new JPanel();
@@ -685,7 +710,11 @@ class form extends JFrame implements ActionListener {
 				String f = tffirstname.getText();
 				String m = tfmiddlename.getText();
 				String l = tflastname.getText();
-				functions.getCustInfo(f,m,l);
+                            try {
+                                functions.getCustInfo(f,m,l);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
 		});					
 	}
@@ -718,10 +747,13 @@ class form extends JFrame implements ActionListener {
 				int mo = Integer.parseInt(tfmonth.getText());
 				int d = Integer.parseInt(tfday.getText());
 				String z = tfprodName.getText();
-				functions.getInv(y,mo,d,z);
+                            try {
+                                functions.getInv(y,mo,d,z);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();		
+		});				
 	}
 	public static void updatePrice() {
 		JPanel p = new JPanel();
@@ -742,10 +774,13 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				String z = tfprod.getText(); 
 				double d = Double.parseDouble(tfnewPrice.getText());
-				functions.updatePrice(z,d);
+                            try {
+                                functions.updatePrice(z,d);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();				
+		});						
 	}
 	public static void updateStation() {
 		JPanel p = new JPanel();
@@ -766,10 +801,13 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				String z = tfprod.getText(); 
 				String s = tfnewStation.getText();
-				functions.updateStation(z,s);
+                            try {
+                                functions.updateStation(z,s);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
 		});
-		x.dispose();
 	}
 	public static void updateRemarks() {
 		JPanel p = new JPanel();
@@ -790,10 +828,13 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				String z = tfprod.getText(); 
 				String r = tfnewRemarks.getText();
-				functions.updateRemarks(z,r);
+                            try {
+                                functions.updateRemarks(z,r);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();
+		});		
 	}
 	public static void updateBal() {
 		JPanel p = new JPanel();
@@ -814,10 +855,13 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				int z = Integer.parseInt(tfidNo.getText()); 
 				double r = Double.parseDouble(tfamt.getText());
-				functions.updateBal(z,r);
+                            try {
+                                functions.updateBal(z,r);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();
+		});		
 	}
 	public static void updateDebt() {
 		JPanel p = new JPanel();
@@ -838,9 +882,17 @@ class form extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent ae) {
 				int z = Integer.parseInt(tfidNo.getText()); 
 				double r = Double.parseDouble(tfamt.getText());
-				functions.updateDebt(z,r);
+                            try {
+                                functions.updateDebt(z,r);
+                            } catch (Exception ex) {
+                                System.out.println("Error in inserting " + ex);
+                            }
 			}
-		});
-		x.dispose();
+		});		
 	}		
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
