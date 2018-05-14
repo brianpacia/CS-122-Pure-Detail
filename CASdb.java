@@ -23,12 +23,12 @@ public class CASdb {
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/casdb?useLegacyDatetimeCode=false&serverTimezone=UTC"; // "//localhost OR ip add/port/dbname" //where the db is located
+			String url = "jdbc:mysql://localhost:3306/casdb"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
 			//establish connection
 			String user = "root" ;
-			String pw = "boyets12" ;
+			String pw = "" ;
 			Connection conn = DriverManager.getConnection(url, user, pw);
 			System.out.println("Connected successfully."); //tester
 			return conn;
@@ -53,10 +53,11 @@ public class CASdb {
 	}
 
 	//fixed 5/13/2018
-	public static void insertOrderItem(String fName, String mName, String lName, String productName, int quantity) throws Exception{ //insert to Order Item table
+	public static void insertOrderItem(String fName, String mName, String lName, String productName, int quantity, int year, int month, int day) throws Exception{ //insert to Order Item table
 		try{
 			PreparedStatement newOrderItem = con.prepareStatement("INSERT INTO orderItem(orderNo,productNo,quantity) VALUES(" + "(SELECT orders.orderNo FROM orders, customer WHERE orders.idNo = customer.idNo AND customer.firstName = '" + fName + "' AND customer.midName = '" + mName + "' AND customer.lastName = '" + lName + "' ORDER BY orders.orderNo DESC LIMIT 1)" + ", " + "(SELECT productNo FROM product WHERE productName = '" + productName + "' ), " + quantity + ")" );
 			newOrderItem.executeUpdate(); //execute the insert
+			updateEndInv(year, month, day, productName, quantity);
 		}catch(Exception e) {
 			System.out.println("Error in insertOrderItem " + e); //in case of any errors;
 		}
@@ -97,10 +98,11 @@ public class CASdb {
 			LocalDate ld = LocalDate.of(year, month, day);
 			PreparedStatement newBegInv = con.prepareStatement("INSERT INTO beginInv VALUES('" + ld + "', " + "(SELECT productNo FROM product WHERE productName = '" + prodName + "')" + ", " + begAmt + ", " + (begAmt+plusAmt+prevAmt) + ", " + plusAmt + ", " + prevAmt + ")" );
 			newBegInv.executeUpdate();
+			insertEndInv(year,month,day,prodName,(begAmt+plusAmt+prevAmt));
 		}catch(Exception e) {
 			System.out.println("Error in insertBegInv" + e);
 		}
-		finally {
+		finally{
 			System.out.println("Insert to BegInv completed"); 
 		}
 	}
@@ -232,6 +234,28 @@ public class CASdb {
 		return results;
 	}
 
+	public static ArrayList<String> getProfit(int year, int month, int day) throws Exception{
+		ArrayList<String> results = new ArrayList<String>();
+		try{
+			LocalDate ld = LocalDate.of(year, month, day);
+			Connection con = getConnection();
+			PreparedStatement command = con.prepareStatement("SELECT orders.orderDate, SUM(orderItem.quantity * product.salesPrice) FROM ((orders INNER JOIN orderItem ON orders.orderNO = orderItem.orderNo) INNER JOIN product ON orderItem.productNo = product.productNo) WHERE orders.orderDate = '" +ld+"'");
+
+			ResultSet result = command.executeQuery();
+
+			
+
+			while(result.next()){
+				System.out.println(result.getString("orders.orderDate") + " " + result.getString("SUM(orderItem.quantity * product.salesPrice)"));
+				results.add(result.getString("orders.orderDate"));
+				results.add(result.getString("SUM(orderItem.quantity * product.salesPrice)"));
+			}
+		}catch(Exception e){
+			System.out.println("Error in getProfit: " + e);
+		}
+		return results;
+	}
+
 	//UPDATE METHODS
 
 	//fixed 5/13/2018
@@ -299,6 +323,18 @@ public class CASdb {
 		}
 	}
 
+	public static void updateEndInv(int year, int month, int day, String prodName, int deductAmt) throws Exception{
+		try {
+			LocalDate ld = LocalDate.of(year, month, day);
+			PreparedStatement updateEndInv = con.prepareStatement("UPDATE endInv e, product p SET totalAmt = (totalAmt- " + deductAmt + ") WHERE p.productName = '" + prodName + "' AND e.eInvDate = '" + ld + "' AND e.productNo = p.productNo");
+			updateEndInv.executeUpdate(); //execute the update
+		}catch(Exception e) {
+			System.out.println("Error in updateEndInv" + e); //in case of any errors;
+		}
+		finally {
+			System.out.println("EndInv of " + prodName + " updated"); //tester;
+		}
+	}
 
 	//fixed 5/13/2018
 	public static void createInventoryUnit() throws Exception{
