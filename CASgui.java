@@ -275,7 +275,8 @@ public class CASgui extends JFrame {
 				else if (x >= 1387 && x <= 1843 && y >= 474 && y <= 900) {
 				}				
 				System.out.println(x + " , " + y);
-			}			
+			}
+		});			
 		f.add(bg,BorderLayout.CENTER);
 		f.revalidate();
 		f.repaint();		
@@ -291,5 +292,451 @@ class drawBG extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(img,0,0,this);
+	}
+}
+// forms for all the functions
+class form extends JFrame implements ActionListener {
+	public int insertOrder, insertOrderItem, insertProduct, insertCustomer, insertBegInv, insertEndInv, getOrder, getPrice, getCustInfo, getInv, updateProduct, updatePrice, updateStation, updateRemarks, updateBal, updateDebt;
+	public static JFrame x;
+	public static CASdb functions;
+	public form (int s) {
+		functions = new CASdb();
+		x = new JFrame();
+		x.setLayout(new BorderLayout());
+		if(s == 0) {
+			insertOrder = 1;
+		}
+		else if (s == 1) {
+			insertOrderItem = 1;
+		}
+		else if (s == 2) {
+			insertProduct = 1;
+		}
+		else if (s == 3) {
+			insertCustomer = 1;
+		}
+		else if (s == 4) {
+			insertBegInv = 1;
+		}
+		else if (s == 5) {
+			insertEndInv = 1;
+		}
+		else if (s == 6) {
+			getOrder = 1;
+		}
+		else if (s == 7) {
+			getPrice = 1;
+		}
+		else if (s == 8) {
+			getCustInfo = 1;
+		}
+		else if (s == 9) {
+			getInv = 1;
+		}
+		else if (s == 10) {
+			updateProduct = 1;
+		}
+		else if (s == 11) {
+			updatePrice = 1;
+		}
+		else if (s == 12) {
+			updateStation = 1;
+		}
+		else if (s == 13) {
+			updateRemarks = 1;
+		}
+		else if (s == 14) {
+			updateBal = 1;
+		}
+		else if (s == 15) {
+			updateDebt = 1;
+		}
+	}
+	public static void main(String[] args) {
+		x.setVisible(true);
+	}
+	public static void insertOrderForm() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(6,2));
+		JLabel firstname = new JLabel("First Name");
+		JTextField tffirstname = new JTextField("");
+		p.add(firstname);
+		p.add(tffirstname);
+		JLabel middlename = new JLabel("Middle Name");
+		JTextField tfmiddlename = new JTextField("");
+		p.add(middlename);
+		p.add(tfmiddlename);
+		JLabel lastname = new JLabel("Last Name");
+		JTextField tflastname = new JTextField("");
+		p.add(lastname);
+		p.add(tflastname);
+		JLabel year = new JLabel("Year");
+		JTextField tfyear = new JTextField("");
+		p.add(year);
+		p.add(tfyear);
+		JLabel month = new JLabel("Month");
+		JTextField tfmonth = new JTextField("");
+		p.add(month);
+		p.add(tfmonth);
+		JLabel day = new JLabel("Day");
+		JTextField tfday = new JTextField("");
+		p.add(day);
+		p.add(tfday);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String f = tffirstname.getText();
+				String m = tfmiddlename.getText();
+				String l = tflastname.getText();
+				int y = Integer.parseInt(tfyear.getText());
+				int mo = Integer.parseInt(tfmonth.getText());
+				int d = Integer.parseInt(tfday.getText());
+				functions.insertOrder(f,m,l,y,mo,d);
+			}
+		});
+	}
+	public static void insertOrderItem() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(5,2));
+		JLabel firstname = new JLabel("First Name");
+		JTextField tffirstname = new JTextField("");
+		p.add(firstname);
+		p.add(tffirstname);
+		JLabel middlename = new JLabel("Middle Name");
+		JTextField tfmiddlename = new JTextField("");
+		p.add(middlename);
+		p.add(tfmiddlename);
+		JLabel lastname = new JLabel("Last Name");
+		JTextField tflastname = new JTextField("");
+		p.add(lastname);
+		p.add(tflastname);
+		JLabel productName = new JLabel("Product Name");
+		JTextField tfproductname = new JTextField("");
+		p.add(productName);
+		p.add(tfproductname);
+		JLabel quantity = new JLabel("Quantity");
+		JTextField tfquantity = new JTextField("");
+		p.add(quantity);
+		p.add(tfquantity);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String f = tffirstname.getText();
+				String m = tfmiddlename.getText();
+				String l = tflastname.getText();
+				String p = tfproductname.getText();
+				int q = Integer.parseInt(tfquantity.getText());
+				functions.insertOrderItem(f,m,l,p,q);
+			}
+		});										
+	}
+	public static void insertProduct() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(4,2));
+		JLabel name = new JLabel("Product Name");
+		JTextField tfname = new JTextField("");
+		p.add(name);
+		p.add(tfname);
+		JLabel station = new JLabel("Station");
+		JTextField tfstation = new JTextField("");
+		p.add(station);
+		p.add(tfstation);
+		JLabel price = new JLabel("Price");
+		JTextField tfprice = new JTextField("");
+		p.add(price);
+		p.add(tfprice);
+		JLabel remarks = new JLabel("Remarks");
+		JTextField tfremarks = new JTextField("");
+		p.add(remarks);
+		p.add(tfremarks);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String n = tfname.getText();
+				String s = tfstation.getText();
+				double p = Double.parseDouble(tfprice.getText());
+				String r = tfremarks.getText();
+				functions.insertProduct(n,s,p,r);
+			}
+		});		
+	}
+	public static void insertCustomer() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(5,2));
+		JLabel firstname = new JLabel("First Name");
+		JTextField tffirstname = new JTextField("");
+		p.add(firstname);
+		p.add(tffirstname);
+		JLabel middlename = new JLabel("Middle Name");
+		JTextField tfmiddlename = new JTextField("");
+		p.add(middlename);
+		p.add(tfmiddlename);
+		JLabel lastname = new JLabel("Last Name");
+		JTextField tflastname = new JTextField("");
+		p.add(lastname);
+		p.add(tflastname);
+		JLabel bal = new JLabel("Balance");
+		JTextField tfbal = new JTextField("");
+		p.add(bal);
+		p.add(tfbal);
+		JLabel debt = new JLabel("Debt");
+		JTextField tfdebt = new JTextField("");
+		p.add(debt);
+		p.add(tfdebt);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String f = tffirstname.getText();
+				String m = tfmiddlename.getText();
+				String l = tflastname.getText();
+				double b = Double.parseDouble(tfbal.getText());
+				double d = Double.parseDouble(tfdebt.getText());
+				functions.insertCustomer(f,m,l,b,d);
+			}
+		});						
+	}
+	public static void insertBegInv() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(7,2));
+		JLabel year = new JLabel("Year");
+		JTextField tfyear = new JTextField("");
+		p.add(year);
+		p.add(tfyear);
+		JLabel month = new JLabel("Month");
+		JTextField tfmonth = new JTextField("");
+		p.add(month);
+		p.add(tfmonth);
+		JLabel day = new JLabel("Day");
+		JTextField tfday = new JTextField("");
+		p.add(day);
+		p.add(tfday);
+		JLabel prodName = new JLabel("Product Name");
+		JTextField tfprodName = new JTextField("");
+		p.add(prodName);
+		p.add(tfprodName);
+		JLabel begAmt = new JLabel("Beginning Amount");
+		JTextField tfbegAmt = new JTextField("");
+		p.add(begAmt);
+		p.add(tfbegAmt);
+		JLabel plusAmt = new JLabel("Plus Amount");
+		JTextField tfplusAmt = new JTextField("");
+		p.add(plusAmt);
+		p.add(tfplusAmt);
+		JLabel prevAmt = new JLabel("Previous Amout");
+		JTextField tfprevAmt = new JTextField("");
+		p.add(prevAmt);
+		p.add(tfprevAmt);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int y = Integer.parseInt(tfyear.getText());
+				int mo = Integer.parseInt(tfmonth.getText());
+				int d = Integer.parseInt(tfday.getText());
+				String p = tfprodName.getText();
+				int bAmt = Integer.parseInt(tfbegAmt.getText());
+				int plAmt = Integer.parseInt(tfplusAmt.getText());
+				int prAmt = Integer.parseInt(tfprevAmt.getText());
+				functions.insertBegInv(y,mo,d,p,bAmt,plAmt,prAmt);
+			}
+		});		
+	}
+	public static void insertEndInv() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(5,2));
+		JLabel year = new JLabel("Year");
+		JTextField tfyear = new JTextField("");
+		p.add(year);
+		p.add(tfyear);
+		JLabel month = new JLabel("Month");
+		JTextField tfmonth = new JTextField("");
+		p.add(month);
+		p.add(tfmonth);
+		JLabel day = new JLabel("Day");
+		JTextField tfday = new JTextField("");
+		p.add(day);
+		p.add(tfday);
+		JLabel prodName = new JLabel("Product Name");
+		JTextField tfprodName = new JTextField("");
+		p.add(prodName);
+		p.add(tfprodName);
+		JLabel totAmt = new JLabel("Total Amount");
+		JTextField tftotAmt = new JTextField("");
+		p.add(totAmt);
+		p.add(tftotAmt);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int y = Integer.parseInt(tfyear.getText());
+				int mo = Integer.parseInt(tfmonth.getText());
+				int d = Integer.parseInt(tfday.getText());
+				String p = tfprodName.getText();
+				int t = Integer.parseInt(tftotAmt.getText());
+				functions.insertEndInv(y,mo,d,p,t);
+			}
+		});		
+	}
+	public static void getOrder() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(6,2));
+		JLabel year = new JLabel("Year");
+		JTextField tfyear = new JTextField("");
+		p.add(year);
+		p.add(tfyear);
+		JLabel month = new JLabel("Month");
+		JTextField tfmonth = new JTextField("");
+		p.add(month);
+		p.add(tfmonth);
+		JLabel day = new JLabel("Day");
+		JTextField tfday = new JTextField("");
+		p.add(day);
+		p.add(tfday);		
+		JLabel firstname = new JLabel("First Name");
+		JTextField tffirstname = new JTextField("");
+		p.add(firstname);
+		p.add(tffirstname);
+		JLabel middlename = new JLabel("Middle Name");
+		JTextField tfmiddlename = new JTextField("");
+		p.add(middlename);
+		p.add(tfmiddlename);
+		JLabel lastname = new JLabel("Last Name");
+		JTextField tflastname = new JTextField("");
+		p.add(lastname);
+		p.add(tflastname);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String f = tffirstname.getText();
+				String m = tfmiddlename.getText();
+				String l = tflastname.getText();
+				int y = Integer.parseInt(tfyear.getText());
+				int mo = Integer.parseInt(tfmonth.getText());
+				int d = Integer.parseInt(tfday.getText());
+				functions.getOrder(y,mo,d,f,m,l);
+			}
+		});		
+	}
+	public static void getPrice() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(1,2));
+		JLabel prodName = new JLabel("Product Name");
+		JTextField tfprodName = new JTextField("");
+		p.add(prodName);
+		p.add(tfprodName);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String p = tfprodName.getText();
+				functions.getPrice(p);
+			}
+		});		
+	}
+	public static void getCustInfo() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(3,2));
+		JLabel firstname = new JLabel("First Name");
+		JTextField tffirstname = new JTextField("");
+		p.add(firstname);
+		p.add(tffirstname);
+		JLabel middlename = new JLabel("Middle Name");
+		JTextField tfmiddlename = new JTextField("");
+		p.add(middlename);
+		p.add(tfmiddlename);
+		JLabel lastname = new JLabel("Last Name");
+		JTextField tflastname = new JTextField("");
+		p.add(lastname);
+		p.add(tflastname);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String f = tffirstname.getText();
+				String m = tfmiddlename.getText();
+				String l = tflastname.getText();
+				functions.getCustInfo(f,m,l);
+			}
+		});					
+	}
+	public static void getInv() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(4,2));
+		JLabel year = new JLabel("Year");
+		JTextField tfyear = new JTextField("");
+		p.add(year);
+		p.add(tfyear);
+		JLabel month = new JLabel("Month");
+		JTextField tfmonth = new JTextField("");
+		p.add(month);
+		p.add(tfmonth);
+		JLabel day = new JLabel("Day");
+		JTextField tfday = new JTextField("");
+		p.add(day);
+		p.add(tfday);
+		JLabel prodName = new JLabel("Product Name");
+		JTextField tfprodName = new JTextField("");
+		p.add(prodName);
+		p.add(tfprodName);	
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int y = Integer.parseInt(tfyear.getText());
+				int mo = Integer.parseInt(tfmonth.getText());
+				int d = Integer.parseInt(tfday.getText());
+				String p = tfprodName.getText();
+				functions.getInv(y,mo,d,p);
+			}
+		});				
+	}
+	public static void updatePrice() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(2,2));
+		JLabel prod = new JLabel("Product Name");
+		JTextField tfprod = new JTextField("");
+		p.add(prod);
+		p.add(tfprod);
+		JLabel newPrice = new JLabel("New Price");
+		JTextField tfnewPrice = new JTextField("");
+		p.add(newPrice);
+		p.add(tfnewPrice);
+		JButton send = new JButton("Send");
+		x.add(p, BorderLayout.PAGE_START);
+		x.add(send, BorderLayout.PAGE_END);		
+		send.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String p = tfprod.getText(); 
+				double d = Double.parseDouble(tfnewPrice.getText());
+				functions.updatePrice(p,d);
+			}
+		});						
+
 	}
 }
