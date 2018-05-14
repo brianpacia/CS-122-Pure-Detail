@@ -53,22 +53,22 @@ public class CASdb {
 //insertOrder("Brian", "P.", "Pacia", 2018 , 5 , 17);
 //
 ////orderitem
-insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 4,  2018 , 5 , 17);
-insertOrderItem("Brian", "P.", "Pacia", "Turon", 2,  2018 , 5 , 17);
-insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 2,  2018 , 5 , 17);
-insertOrderItem("Owen", "S.", "Medina", "Lemon Smart C", 15,  2018 , 5 , 17);
-insertOrderItem("Owen", "S.", "Medina", "Oreos", 10,  2018 , 5 , 17);
-insertOrderItem("Jeff", "T.", "Andawi", "Cheese Piattos", 2,  2018 , 5 , 17);
-insertOrderItem("Jeff", "T.", "Andawi", "Summit Water", 1,  2018 , 5 , 17);
-insertOrderItem("Angela", "M.", "Mercado", "Nilagang Baka", 1, 2018 , 5 , 16);
-insertOrderItem("Angela", "M.", "Mercado", "Plain Rice", 2, 2018 , 5 , 16);
-insertOrderItem("Paolo", "O.", "Alilam", "Gatorade Blue Bolt", 1, 2018 , 5 , 16);
-insertOrderItem("Alec", "A.", "Aquino", "Adobong Manok", 1, 2018 , 5 , 15 );
-insertOrderItem("Alec", "A.", "Aquino", "Plain Rice", 1, 2018 , 5 , 15 );
-insertOrderItem("Alec", "A.", "Aquino", "Summit Water", 1, 2018 , 5 , 15 );
-insertOrderItem("Kristi", "T.", "Ingco", "Pritong Bangus", 3, 2018 , 5 , 15 );
-insertOrderItem("Enzo", "A.", "Orbeta", "Skyflakes", 10, 2018 , 5 , 15 );
-insertOrderItem("Jerry", "P.", "Patajo", "Turon", 4, 2018 , 5 , 17);
+// insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 4,  2018 , 5 , 17);
+// insertOrderItem("Brian", "P.", "Pacia", "Turon", 2,  2018 , 5 , 17);
+// insertOrderItem("Brian", "P.", "Pacia", "Pork Barbecue on a Stick", 2,  2018 , 5 , 17);
+// insertOrderItem("Owen", "S.", "Medina", "Lemon Smart C", 15,  2018 , 5 , 17);
+// insertOrderItem("Owen", "S.", "Medina", "Oreos", 10,  2018 , 5 , 17);
+// insertOrderItem("Jeff", "T.", "Andawi", "Cheese Piattos", 2,  2018 , 5 , 17);
+// insertOrderItem("Jeff", "T.", "Andawi", "Summit Water", 1,  2018 , 5 , 17);
+// insertOrderItem("Angela", "M.", "Mercado", "Nilagang Baka", 1, 2018 , 5 , 16);
+// insertOrderItem("Angela", "M.", "Mercado", "Plain Rice", 2, 2018 , 5 , 16);
+// insertOrderItem("Paolo", "O.", "Alilam", "Gatorade Blue Bolt", 1, 2018 , 5 , 16);
+// insertOrderItem("Alec", "A.", "Aquino", "Adobong Manok", 1, 2018 , 5 , 15 );
+// insertOrderItem("Alec", "A.", "Aquino", "Plain Rice", 1, 2018 , 5 , 15 );
+// insertOrderItem("Alec", "A.", "Aquino", "Summit Water", 1, 2018 , 5 , 15 );
+// insertOrderItem("Kristi", "T.", "Ingco", "Pritong Bangus", 3, 2018 , 5 , 15 );
+// insertOrderItem("Enzo", "A.", "Orbeta", "Skyflakes", 10, 2018 , 5 , 15 );
+// insertOrderItem("Jerry", "P.", "Patajo", "Turon", 4, 2018 , 5 , 17);
 //
 ////inventory
 //insertBegInv(2018, 5, 15, "Pancit Bihon", 15, 0, 0);
@@ -130,12 +130,12 @@ insertOrderItem("Jerry", "P.", "Patajo", "Turon", 4, 2018 , 5 , 17);
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/casdb?useLegacyDatetimeCode=false&serverTimezone=UTC"; // "//localhost OR ip add/port/dbname" //where the db is located
+			String url = "jdbc:mysql://localhost:3306/casdb"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
 			//establish connection
 			String user = "root" ;
-			String pw = "boyets12" ;
+			String pw = "" ;
 			Connection conn = DriverManager.getConnection(url, user, pw);
 			System.out.println("Connected successfully."); //tester
 			return conn;
