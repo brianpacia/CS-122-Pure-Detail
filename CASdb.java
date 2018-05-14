@@ -6,29 +6,29 @@ import java.util.*;
 
 public class CASdb {
     private static Connection con;
-	public static void main(String[] args) throws Exception {
+	//public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-            con = getConnection();
+            //con = getConnection();
             //createCustomerUnit();
             //createOrderUnit();
             //createInventoryUnit();
-	}
+	//}
 
-	/*constructor
-	public CASdb(){
+	//constructor
+	public CASdb() throws Exception{
 		con = getConnection();
-	}*/
+	}
 	
 	//confirmed
 	public static Connection getConnection() throws Exception{ //connect to mysql db
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/casdb"; // "//localhost OR ip add/port/dbname" //where the db is located
+			String url = "jdbc:mysql://localhost:3306/casdb?useLegacyDatetimeCode=false&serverTimezone=UTC"; // "//localhost OR ip add/port/dbname" //where the db is located
 			Class.forName(driver);
 			
 			//establish connection
 			String user = "root" ;
-			String pw = "" ;
+			String pw = "boyets12" ;
 			Connection conn = DriverManager.getConnection(url, user, pw);
 			System.out.println("Connected successfully."); //tester
 			return conn;
@@ -121,14 +121,13 @@ public class CASdb {
 	
 	//fixed 5/13/2018
 	public static ArrayList<String> getOrder(int year, int month, int day, String fName, String mName, String lName) throws Exception{
+                ArrayList<String> results = new ArrayList<String>();
 		try{
 			LocalDate ld = LocalDate.of(year, month, day);
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT o.orderDate, cust.firstName, cust.lastName, prod.productName, oi.quantity FROM product prod, customer cust, orders o, orderItem oi WHERE o.idNo = cust.idNo AND oi.orderNo = o.orderNo AND oi.productNo = prod.productNo AND o.orderDate = '" + ld + "' AND cust.firstName = '" + fName + "' AND cust.midName = '" + mName + "' AND cust.lastName = '" + lName + "'");
 
 			ResultSet result = command.executeQuery();
-
-			ArrayList<String> results = new ArrayList<String>();
 
 			while(result.next()){
 				System.out.println(result.getString("o.orderDate") + " " + result.getString("cust.firstName") + " " + result.getString("cust.lastName") + " " + result.getString("prod.productName") + " " + result.getString("oi.quantity"));
@@ -146,13 +145,14 @@ public class CASdb {
 	
 	//fixed 5/13/2018
 	public static ArrayList<String> getPrice(String prodName) throws Exception{
+                ArrayList<String> results = new ArrayList<String>();
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT productName, salesPrice FROM product WHERE productName = '" + prodName + "'");
 
 			ResultSet result = command.executeQuery();
 
-			ArrayList<String> results = new ArrayList<String>();
+			
 
 			while(result.next()){
 				System.out.println(result.getString("productName") + " " + result.getString("salesPrice"));
@@ -167,13 +167,13 @@ public class CASdb {
 	
 	//fixed 5/13/2018 - ASK ABOUT THIS METHOD
 	public static ArrayList<String> getCustInfo(String fName, String mName, String lName) throws Exception{
+                ArrayList<String> results = new ArrayList<String>();
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT idNo, CONCAT(firstName,' ', midName, ' ', lastName), balance, accumulatedDebt FROM customer WHERE firstName = '" + fName + "' AND midName = '" + mName + "' AND lastName = '" + lName + "'");
 
 			ResultSet result = command.executeQuery();
 
-			ArrayList<String> results = new ArrayList<String>();
 
 			while(result.next()){
 				System.out.println(result.getString(1) + " " + result.getString(2) + " " + result.getString("balance") + " " + result.getString("accumulatedDebt"));
@@ -190,6 +190,7 @@ public class CASdb {
 	
 	//fixed 5/13/2018
 	public static ArrayList<String> getInv(int year, int month, int day, String prodName) throws Exception{
+                ArrayList<String> results = new ArrayList<String>();
 		try{
 			LocalDate ld = LocalDate.of(year, month, day);
 			Connection con = getConnection();
@@ -197,7 +198,7 @@ public class CASdb {
 
 			ResultSet result = command.executeQuery();
 
-			ArrayList<String> results = new ArrayList<String>();
+			
 
 			while(result.next()){
 				System.out.println(prodName + " " + result.getString("beg.totalAmt") + " " + result.getString("end.totalAmt"));
@@ -213,13 +214,12 @@ public class CASdb {
     
 	//fixed 5/13/2018
 	public static ArrayList<String> getCustWithDebt() throws Exception{
+                ArrayList<String> results = new ArrayList<String>();
 		try{
 			Connection con = getConnection();
 			PreparedStatement command = con.prepareStatement("SELECT CONCAT(firstName,' ', midName, ' ', lastName),accumulatedDebt FROM customer WHERE accumulatedDebt <> 0");
 
 			ResultSet result = command.executeQuery();
-
-			ArrayList<String> results = new ArrayList<String>();
 
 			while(result.next()){
 				System.out.println(result.getString(1) + " " + result.getString("accumulatedDebt"));

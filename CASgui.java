@@ -25,7 +25,7 @@ public class CASgui extends JFrame {
 	public void init() {
 		f.setLayout(new BorderLayout());
 		this.funcMain();
-		f.setPreferredSize(new Dimension(1920,1080));
+		f.setPreferredSize(new Dimension(1280,720));
 		f.pack();
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setLocationRelativeTo(null);
@@ -41,7 +41,7 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// insert
-				if(x >= 219 && x <= 505 && y >= 441 && y <= 879) {
+				if(x >= 116 && x <= 334 && y >= 288 && y <= 594) {
 					funcInsert = 1;
 					funcSearch = 0;
 					funcUpdate = 0;
@@ -49,7 +49,7 @@ public class CASgui extends JFrame {
 					main();
 				}
 				// search
-				else if (x >= 793 && x <= 1126 && y >= 441 && y <= 879) {
+				else if (x >= 516  && x <= 748 && y >= 288 && y <= 594) {
 					funcSearch = 1;
 					funcInsert = 0;
 					funcUpdate = 0;
@@ -57,7 +57,7 @@ public class CASgui extends JFrame {
 					main();
 				}
 				// update
-				else if (x >= 1384 && x <= 1743 && y >= 441 && y <= 879) {
+				else if (x >= 918 && x <= 1160 && y >= 441 && y <= 879) {
 					funcUpdate = 1;
 					funcSearch = 0;
 					funcInsert = 0;
@@ -79,7 +79,7 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// inventory
-				if(x >= 279 && x <= 693 && y >= 564 && y <= 952) {
+				if(x >= 172 && x <= 456 && y >= 378 && y <= 648) {
 					f.remove(bg);
 					// going to inventory
 					if(funcInsert == 1) {
@@ -103,7 +103,7 @@ public class CASgui extends JFrame {
 					f.remove(bg);
 				}
 				// going to order
-				else if (x >= 805 && x <= 1083 && y >= 564 && y <= 952) { 
+				else if (x >= 520 && x <= 720 && y >= 378 && y <= 648) { 
 					f.remove(bg);
 					if(funcInsert == 1) {
 						mainInsert = 1;
@@ -119,7 +119,7 @@ public class CASgui extends JFrame {
 					}					
 				}
 				// going to customer
-				else if (x >= 1209 && x <= 1575 && y >= 564 && y <= 952) {
+				else if (x >= 800 && x <= 1040 && y >= 378 && y <= 648) {
 					f.remove(bg);
 					// form
 					if(funcInsert == 1) {
@@ -152,21 +152,21 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// first three = product
-				if(x >= 387 && x <= 699 && y >= 507 && y <= 865 && mainInsert == 1) {
+				if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainInsert == 1) {
 				}
-				else if(x >= 387 && x <= 699 && y >= 507 && y <= 865 && mainSearch == 1) {
+				else if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainSearch == 1) {
 					f.remove(bg);
 					prodGet();
 				}
-				else if(x >= 387 && x <= 699 && y >= 507 && y <= 865 && mainUpdate == 1) {
+				else if(x >= 250 && x <= 462 && y >= 334 && y <= 588 && mainUpdate == 1) {
 					f.remove(bg);
 					prodUpdate();
 				}									
 				// second = beginning
-				else if (x >= 793 && x <= 1126 && y >= 441 && y <= 879) {
+				else if (x >= 542 && x <= 768 && y >= 348 && y <= 616) {
 				}
 				// third = ending
-				else if (x >= 1384 && x <= 1743 && y >= 441 && y <= 879) {
+				else if (x >= 826 && x <= 1032 && y >= 348 && y <= 616) {
 				}
 				System.out.println(x + " , " + y);
 			}
@@ -183,14 +183,14 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// first two = order
-				if(x >= 442 && x <= 760 && y >= 516 && y <= 882 && mainInsert == 1) {
+				if(x >= 286 && x <= 506 && y >= 340 && y <= 582 && mainInsert == 1) {
 				}
-				else if(x >= 442 && x <= 760 && y >= 516 && y <= 882 && mainSearch == 1) {
+				else if(x >= 286 && x <= 506 && y >= 340 && y <= 582 && mainSearch == 1) {
 				}
 				// second two = order item							
-				else if (x >= 1117 && x <= 1596 && y >= 516 && y <= 882 && mainInsert == 1) {
+				else if (x >= 744 && x <= 1044 && y >= 334 && y <= 588 && mainInsert == 1) {
 				}
-				else if (x >= 1117 && x <= 1596 && y >= 516 && y <= 882 && mainSearch == 1) {
+				else if (x >= 744 && x <= 1044 && y >= 334 && y <= 588 && mainSearch == 1) {
 				}
 				System.out.println(x + " , " + y);
 			}
@@ -207,10 +207,10 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// debt
-				if(x >= 301 && x <= 736 && y >= 411 && y <= 882) {
+				if(x >= 198 && x <= 496 && y >= 276 && y <= 594) {
 				}
 				// balance						
-				else if (x >= 1102 && x <= 1552 && y >= 411 && y <= 882) {
+				else if (x >= 732 && x <= 1032 && y >= 276 && y <= 594) {
 				}
 				System.out.println(x + " , " + y);
 			}
@@ -227,10 +227,10 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// no debt
-				if(x >= 225 && x <= 721 && y >= 393 && y <= 844) {
+				if(x >= 160 && x <= 476 && y >= 254 && y <= 564) {
 				}
 				// with debt					
-				else if (x >= 1189 && x <= 1675 && y >= 345 && y <= 919) {
+				else if (x >= 770 && x <= 122 && y >= 254 && y <= 622) {
 				}
 				System.out.println(x + " , " + y);
 			}
@@ -247,10 +247,10 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// price
-				if(x >= 217 && x <= 700 && y >= 375 && y <= 906) {
+				if(x >= 138 && x <= 474 && y >= 244 && y <= 594) {
 				}
 				// profit					
-				else if (x >= 1189 && x <= 1779 && y >= 375 && y <= 906) {
+				else if (x >= 792 && x <= 1187 && y >= 244 && y <= 594) {
 				}
 				System.out.println(x + " , " + y);
 			}
@@ -266,13 +266,13 @@ public class CASgui extends JFrame {
 				int x = e.getX();
 				int y = e.getY();
 				// station
-				if(x >= 73 && x <= 586 && y >= 474 && y <= 900) {
+				if(x >= 44 && x <= 404 && y >= 320 && y <= 598) {
 				}
 				// price				
-				else if (x >= 801 && x <= 1206 && y >= 474 && y <= 900) {
+				else if (x >= 528 && x <= 798 && y >= 244 && y <= 594) {
 				}
 				// remarks
-				else if (x >= 1387 && x <= 1843 && y >= 474 && y <= 900) {
+				else if (x >= 922 && x <= 1228 && y >= 244 && y <= 594) {
 				}				
 				System.out.println(x + " , " + y);
 			}
@@ -397,6 +397,7 @@ class form extends JFrame implements ActionListener {
 				functions.insertOrder(f,m,l,y,mo,d);
 			}
 		});
+		x.dispose();
 	}
 	public static void insertOrderItem() {
 		JPanel p = new JPanel();
@@ -434,7 +435,8 @@ class form extends JFrame implements ActionListener {
 				int q = Integer.parseInt(tfquantity.getText());
 				functions.insertOrderItem(f,m,l,z,q);
 			}
-		});										
+		});
+		x.dispose();									
 	}
 	public static void insertProduct() {
 		JPanel p = new JPanel();
@@ -467,7 +469,8 @@ class form extends JFrame implements ActionListener {
 				String r = tfremarks.getText();
 				functions.insertProduct(n,s,z,r);
 			}
-		});		
+		});
+		x.dispose();	
 	}
 	public static void insertCustomer() {
 		JPanel p = new JPanel();
@@ -553,7 +556,8 @@ class form extends JFrame implements ActionListener {
 				int prAmt = Integer.parseInt(tfprevAmt.getText());
 				functions.insertBegInv(y,mo,d,z,bAmt,plAmt,prAmt);
 			}
-		});		
+		});
+		x.dispose();	
 	}
 	public static void insertEndInv() {
 		JPanel p = new JPanel();
@@ -591,7 +595,8 @@ class form extends JFrame implements ActionListener {
 				int t = Integer.parseInt(tftotAmt.getText());
 				functions.insertEndInv(y,mo,d,z,t);
 			}
-		});		
+		});
+		x.dispose();	
 	}
 	public static void getOrder() {
 		JPanel p = new JPanel();
@@ -634,7 +639,8 @@ class form extends JFrame implements ActionListener {
 				int d = Integer.parseInt(tfday.getText());
 				functions.getOrder(y,mo,d,f,m,l);
 			}
-		});		
+		});
+		x.dispose();	
 	}
 	public static void getPrice() {
 		JPanel p = new JPanel();
@@ -652,7 +658,8 @@ class form extends JFrame implements ActionListener {
 				String z = tfprodName.getText();
 				functions.getPrice(z);
 			}
-		});		
+		});
+		x.dispose();	
 	}
 	public static void getCustInfo() {
 		JPanel p = new JPanel();
@@ -713,7 +720,8 @@ class form extends JFrame implements ActionListener {
 				String z = tfprodName.getText();
 				functions.getInv(y,mo,d,z);
 			}
-		});				
+		});
+		x.dispose();		
 	}
 	public static void updatePrice() {
 		JPanel p = new JPanel();
@@ -736,7 +744,8 @@ class form extends JFrame implements ActionListener {
 				double d = Double.parseDouble(tfnewPrice.getText());
 				functions.updatePrice(z,d);
 			}
-		});						
+		});
+		x.dispose();				
 	}
 	public static void updateStation() {
 		JPanel p = new JPanel();
@@ -760,6 +769,7 @@ class form extends JFrame implements ActionListener {
 				functions.updateStation(z,s);
 			}
 		});
+		x.dispose();
 	}
 	public static void updateRemarks() {
 		JPanel p = new JPanel();
@@ -782,7 +792,8 @@ class form extends JFrame implements ActionListener {
 				String r = tfnewRemarks.getText();
 				functions.updateRemarks(z,r);
 			}
-		});		
+		});
+		x.dispose();
 	}
 	public static void updateBal() {
 		JPanel p = new JPanel();
@@ -805,7 +816,8 @@ class form extends JFrame implements ActionListener {
 				double r = Double.parseDouble(tfamt.getText());
 				functions.updateBal(z,r);
 			}
-		});		
+		});
+		x.dispose();
 	}
 	public static void updateDebt() {
 		JPanel p = new JPanel();
@@ -828,6 +840,7 @@ class form extends JFrame implements ActionListener {
 				double r = Double.parseDouble(tfamt.getText());
 				functions.updateDebt(z,r);
 			}
-		});		
+		});
+		x.dispose();
 	}		
 }
